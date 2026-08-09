@@ -47,8 +47,9 @@
   let totalPieces = 0;
   let timerInterval = null;
   let timerSeconds = 0;
-  let hintVisible = false;
   let soundEnabled = true;
+  let hintsUsedThisLevel = false;
+  let hintTimeoutId = null;
 
   // === DOM ELEMENTS ===
   const $ = (sel) => document.querySelector(sel);
@@ -216,8 +217,19 @@
     navigateTo('game');
     placedCount = 0;
     totalPieces = currentPuzzle.pieces;
-    hintVisible = false;
-    $('#puzzle-guide').classList.remove('visible');
+
+    // Reset Hint System for this level
+    hintsUsedThisLevel = false;
+    if (hintTimeoutId) clearTimeout(hintTimeoutId);
+    const existingBox = $('#board-hint-box');
+    if (existingBox) existingBox.remove();
+
+    const btnHint = $('#btn-hint');
+    if (btnHint) {
+      btnHint.classList.remove('disabled');
+      btnHint.removeAttribute('disabled');
+    }
+
     $('#puzzle-placeholder').style.opacity = '1';
     $('#pieces-display').textContent = `0/${totalPieces}`;
 
@@ -226,9 +238,6 @@
     img.crossOrigin = 'anonymous';
     img.onload = () => initPuzzle(img);
     img.src = currentPuzzle.image;
-
-    // Set guide image
-    $('#puzzle-guide').style.backgroundImage = `url("${currentPuzzle.image}")`;
 
     startTimer();
   }
@@ -306,12 +315,68 @@
   }
 
 
+  // === SINGLE-PIECE HINT SYSTEM ===
+  function triggerSinglePieceHint() {
+    if (hintsUsedThisLevel) return;
+
+    const unplaced = Array.from($$('#piece-tray .puzzle-piece')).filter((el) => !el.classList.contains('placed'));
+    if (unplaced.length === 0) return;
+
+    hintsUsedThisLevel = true;
+
+    // Disable hint button for the rest of this level
+    const btnHint = $('#btn-hint');
+    if (btnHint) {
+      btnHint.classList.add('disabled');
+      btnHint.setAttribute('disabled', 'true');
+    }
+
+    // Pick 1 unplaced piece
+    const targetPiece = unplaced[Math.floor(Math.random() * unplaced.length)];
+    const col = parseInt(targetPiece.dataset.col);
+    const row = parseInt(targetPiece.dataset.row);
+
+    // Highlight piece in tray and scroll to it
+    targetPiece.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    targetPiece.classList.add('hint-highlight');
+
+    // Highlight slot on board
+    const board = $('#puzzle-board');
+    const boardRect = board.getBoundingClientRect();
+    const pieceW = boardRect.width / currentPuzzle.cols;
+    const pieceH = boardRect.height / currentPuzzle.rows;
+
+    const existingBox = $('#board-hint-box');
+    if (existingBox) existingBox.remove();
+
+    const hintBox = document.createElement('div');
+    hintBox.id = 'board-hint-box';
+    hintBox.className = 'board-hint-box';
+    hintBox.style.left = `${col * pieceW}px`;
+    hintBox.style.top = `${row * pieceH}px`;
+    hintBox.style.width = `${pieceW}px`;
+    hintBox.style.height = `${pieceH}px`;
+    board.appendChild(hintBox);
+
+    if (hintTimeoutId) clearTimeout(hintTimeoutId);
+    hintTimeoutId = setTimeout(() => {
+      targetPiece.classList.remove('hint-highlight');
+      if (hintBox.parentNode) hintBox.remove();
+    }, 3000);
+  }
+
+
   // === PIECE SNAP HANDLER ===
   function handlePieceSnap(pieceEl, { row, col }) {
     placedCount++;
     $('#pieces-display').textContent = `${placedCount}/${totalPieces}`;
 
     if (soundEnabled) Effects.playSnapSound();
+
+    // Clean up hint highlight if snapped
+    const existingBox = $('#board-hint-box');
+    if (existingBox) existingBox.remove();
+    $$('.puzzle-piece.hint-highlight').forEach((el) => el.classList.remove('hint-highlight'));
 
     // Draw piece on board canvas
     const canvas = $('#board-canvas');
@@ -407,10 +472,9 @@
       updateLevelCards();
     });
 
-    // Hint toggle
+    // Hint button: 1-time per level single piece hint
     $('#btn-hint').addEventListener('click', () => {
-      hintVisible = !hintVisible;
-      $('#puzzle-guide').classList.toggle('visible', hintVisible);
+      triggerSinglePieceHint();
     });
 
     // Sound toggle
