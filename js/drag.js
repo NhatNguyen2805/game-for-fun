@@ -107,8 +107,8 @@ class DragSystem {
     // Calculate distance
     const dist = Math.sqrt((pieceCenterX - targetX) ** 2 + (pieceCenterY - targetY) ** 2);
 
-    // Generous snap threshold: within 80% of piece size or if dropped over the target slot
-    const snapThreshold = Math.max(pieceW, pieceH) * 0.85;
+    // Snap threshold: must drop within 55% of cell size from center of correct target slot
+    const snapThreshold = Math.min(pieceW, pieceH) * 0.55;
 
     if (dist < snapThreshold) {
       // SNAP! Correctly placed
