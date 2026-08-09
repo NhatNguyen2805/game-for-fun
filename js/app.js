@@ -11,9 +11,9 @@
       id: 'puppy',
       title: 'Friendly Puppy',
       image: 'images/puzzle-puppy.png',
-      cols: 3,
-      rows: 2,
-      pieces: 6,
+      cols: 4,
+      rows: 3,
+      pieces: 12,
       unlocked: true,
     },
     castle: {
