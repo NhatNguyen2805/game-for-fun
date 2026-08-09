@@ -69,43 +69,37 @@
         <button class="levels-back-btn" id="btn-back-menu" aria-label="Back to menu">
           <span class="material-symbols-outlined">arrow_back</span>
         </button>
-        <h2 class="levels-title">Choose a Puzzle</h2>
+        <h2 class="levels-title">Chọn Màn Chơi</h2>
       </div>
 
       <div class="levels-scroll" id="levels-scroll">
-        <!-- Card 1: Puppy -->
-        <div class="puzzle-card" data-puzzle="puppy" data-pieces="12">
-          <img class="puzzle-card-image" src="images/puzzle-puppy.png" alt="Friendly Puppy" />
+        <!-- Card 1: Level 1 -->
+        <div class="puzzle-card" data-puzzle="level1" data-pieces="12">
+          <div class="puzzle-card-banner level-1-banner">
+            <span class="material-symbols-outlined level-card-icon">help_center</span>
+            <span class="level-card-number">LEVEL 1</span>
+          </div>
           <div class="puzzle-card-body">
             <div class="puzzle-card-info">
-              <h3 class="puzzle-card-title">Friendly Puppy</h3>
-              <p class="puzzle-card-meta">🌟 Fun & challenging</p>
+              <h3 class="puzzle-card-title">Màn 1</h3>
+              <p class="puzzle-card-meta">✨ Bức tranh bí ẩn #1</p>
             </div>
-            <span class="puzzle-card-badge badge-easy">Medium · 12 pcs</span>
+            <span class="puzzle-card-badge badge-easy">12 mảnh</span>
           </div>
         </div>
 
-        <!-- Card 2: Castle -->
-        <div class="puzzle-card" data-puzzle="castle" data-pieces="12">
-          <img class="puzzle-card-image" src="images/puzzle-castle.png" alt="Sunny Castle" />
-          <div class="puzzle-card-body">
-            <div class="puzzle-card-info">
-              <h3 class="puzzle-card-title">Sunny Castle</h3>
-              <p class="puzzle-card-meta">🏰 A magical adventure</p>
-            </div>
-            <span class="puzzle-card-badge badge-medium">Medium · 12 pcs</span>
+        <!-- Card 2: Level 2 -->
+        <div class="puzzle-card locked" data-puzzle="level2" data-pieces="12" id="card-level2">
+          <div class="puzzle-card-banner level-2-banner">
+            <span class="material-symbols-outlined level-card-icon">lock</span>
+            <span class="level-card-number">LEVEL 2</span>
           </div>
-        </div>
-
-        <!-- Card 3: Whale (locked initially) -->
-        <div class="puzzle-card" data-puzzle="whale" data-pieces="12" id="card-whale">
-          <img class="puzzle-card-image" src="images/puzzle-whale.png" alt="Swimming Whale" />
           <div class="puzzle-card-body">
             <div class="puzzle-card-info">
-              <h3 class="puzzle-card-title">Swimming Whale</h3>
-              <p class="puzzle-card-meta">🐋 Deep sea wonder</p>
+              <h3 class="puzzle-card-title">Màn 2</h3>
+              <p class="puzzle-card-meta">🔒 Hoàn thành Màn 1 để mở</p>
             </div>
-            <span class="puzzle-card-badge badge-locked">🔒 Locked</span>
+            <span class="puzzle-card-badge badge-locked">🔒 Khóa</span>
           </div>
         </div>
       </div>
@@ -198,9 +192,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/effects.js?v=1.3"></script>
-  <script src="js/puzzle.js?v=1.3"></script>
-  <script src="js/drag.js?v=1.3"></script>
-  <script src="js/app.js?v=1.3"></script>
+  <script src="js/effects.js?v=2.0"></script>
+  <script src="js/puzzle.js?v=2.0"></script>
+  <script src="js/drag.js?v=2.0"></script>
+  <script src="js/app.js?v=2.0"></script>
 </body>
 </html>

@@ -7,28 +7,19 @@
 
   // === PUZZLE DATA ===
   const PUZZLES = {
-    puppy: {
-      id: 'puppy',
-      title: 'Friendly Puppy',
-      image: 'images/puzzle-puppy.png',
+    level1: {
+      id: 'level1',
+      title: 'Màn 1',
+      image: 'images/anh-1.png',
       cols: 4,
       rows: 3,
       pieces: 12,
       unlocked: true,
     },
-    castle: {
-      id: 'castle',
-      title: 'Sunny Castle',
-      image: 'images/puzzle-castle.png',
-      cols: 4,
-      rows: 3,
-      pieces: 12,
-      unlocked: true,
-    },
-    whale: {
-      id: 'whale',
-      title: 'Swimming Whale',
-      image: 'images/puzzle-whale.png',
+    level2: {
+      id: 'level2',
+      title: 'Màn 2',
+      image: 'images/anh-2.png',
       cols: 4,
       rows: 3,
       pieces: 12,
@@ -36,7 +27,7 @@
     },
   };
 
-  const PUZZLE_ORDER = ['puppy', 'castle', 'whale'];
+  const PUZZLE_ORDER = ['level1', 'level2'];
 
   // === STATE ===
   let currentScreen = 'menu';
@@ -65,9 +56,8 @@
     try {
       const data = JSON.parse(localStorage.getItem('cozy-puzzles-progress'));
       if (data && data.completed) {
-        // Unlock whale if both puppy and castle are completed
-        if (data.completed.puppy && data.completed.castle) {
-          PUZZLES.whale.unlocked = true;
+        if (data.completed.level1) {
+          PUZZLES.level2.unlocked = true;
         }
         return data;
       }
@@ -84,8 +74,8 @@
     localStorage.setItem('cozy-puzzles-progress', JSON.stringify(progress));
 
     // Update unlock status
-    if (progress.completed.puppy && progress.completed.castle) {
-      PUZZLES.whale.unlocked = true;
+    if (progress.completed.level1) {
+      PUZZLES.level2.unlocked = true;
     }
   }
 
@@ -104,7 +94,6 @@
     }
 
     if (nextEl) {
-      // Small delay to let exit animation start
       requestAnimationFrame(() => {
         nextEl.classList.add('active');
       });
@@ -144,16 +133,33 @@
 
   // === LEVEL SELECT ===
   function updateLevelCards() {
-    const progress = loadProgress();
+    loadProgress();
 
-    // Update whale card locked state
-    const whaleCard = $('#card-whale');
-    if (PUZZLES.whale.unlocked) {
-      whaleCard.classList.remove('locked');
-      whaleCard.querySelector('.puzzle-card-badge').textContent = 'Medium · 12 pcs';
-      whaleCard.querySelector('.puzzle-card-badge').className = 'puzzle-card-badge badge-medium';
+    const card2 = $('#card-level2');
+    if (!card2) return;
+
+    if (PUZZLES.level2.unlocked) {
+      card2.classList.remove('locked');
+      const badge = card2.querySelector('.puzzle-card-badge');
+      if (badge) {
+        badge.textContent = '12 mảnh';
+        badge.className = 'puzzle-card-badge badge-easy';
+      }
+      const meta = card2.querySelector('.puzzle-card-meta');
+      if (meta) meta.textContent = '✨ Bức tranh bí ẩn #2';
+      const icon = card2.querySelector('.level-card-icon');
+      if (icon) icon.textContent = 'help_center';
     } else {
-      whaleCard.classList.add('locked');
+      card2.classList.add('locked');
+      const badge = card2.querySelector('.puzzle-card-badge');
+      if (badge) {
+        badge.textContent = '🔒 Khóa';
+        badge.className = 'puzzle-card-badge badge-locked';
+      }
+      const meta = card2.querySelector('.puzzle-card-meta');
+      if (meta) meta.textContent = '🔒 Hoàn thành Màn 1 để mở';
+      const icon = card2.querySelector('.level-card-icon');
+      if (icon) icon.textContent = 'lock';
     }
   }
 
@@ -178,7 +184,9 @@
     img.src = currentPuzzle.image;
 
     // Set guide image
-    $('#guide-image').src = currentPuzzle.image;
+    $('#puzzle-guide').style.backgroundImage = `url("${currentPuzzle.image}")`;
+
+    startTimer();
   }
 
   function initPuzzle(img) {
@@ -189,67 +197,63 @@
     const canvas = $('#board-canvas');
     canvas.width = boardSize;
     canvas.height = boardSize;
-    const ctx = canvas.getContext('2d');
 
-    // Create puzzle
+    // Create puzzle engine
     puzzle = new JigsawPuzzle(img, currentPuzzle.cols, currentPuzzle.rows, boardSize);
-    const pieces = puzzle.generateAllPieces();
 
-    // Draw grid lines on board
+    // Render board background grid
+    const ctx = canvas.getContext('2d');
     puzzle.drawBoardGrid(ctx);
 
-    // Clear tray
+    // Generate pieces
+    const piecesData = puzzle.generateAllPieces();
+
+    // Populate piece tray
     const tray = $('#piece-tray');
     tray.innerHTML = '';
 
-    // Destroy previous drag system
-    if (dragSystem) dragSystem.destroy();
+    // Shuffle pieces randomly
+    const shuffled = [...piecesData].sort(() => Math.random() - 0.5);
 
-    // Create drag system
+    shuffled.forEach((pieceData) => {
+      const pieceEl = document.createElement('div');
+      pieceEl.className = 'puzzle-piece';
+      pieceEl.dataset.col = pieceData.col;
+      pieceEl.dataset.row = pieceData.row;
+      pieceEl.dataset.cols = currentPuzzle.cols;
+      pieceEl.dataset.rows = currentPuzzle.rows;
+
+      // Fit piece nicely inside tray
+      const displaySize = Math.min(90, (boardSize / currentPuzzle.cols) * 1.3);
+      pieceEl.style.width = `${displaySize}px`;
+      pieceEl.style.height = `${displaySize}px`;
+
+      // Scale canvas to fit element
+      const innerCanvas = pieceData.canvas;
+      innerCanvas.style.width = '100%';
+      innerCanvas.style.height = '100%';
+      pieceEl.appendChild(innerCanvas);
+
+      // Store data reference
+      pieceEl._pieceData = pieceData;
+
+      tray.appendChild(pieceEl);
+    });
+
+    // Hide placeholder once pieces are loaded
+    $('#puzzle-placeholder').style.opacity = '0';
+
+    // Init drag & drop
+    if (dragSystem) dragSystem.destroy();
     dragSystem = new DragSystem({
-      tray: tray,
-      board: board,
-      boardSize: boardSize,
-      snapThreshold: boardSize / currentPuzzle.cols * 0.55,
+      tray,
+      board,
       onSnap: handlePieceSnap,
       onDragStart: (el) => {
-        // Hide placeholder on first drag
-        $('#puzzle-placeholder').style.opacity = '0';
+        if (soundEnabled) Effects.playPopSound();
       },
-      onDragEnd: () => {},
+      onDragEnd: (el) => {},
     });
-
-    // Shuffle pieces
-    const shuffled = [...pieces].sort(() => Math.random() - 0.5);
-
-    // Create piece elements
-    shuffled.forEach((pieceData) => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'puzzle-piece';
-      wrapper.dataset.row = pieceData.row;
-      wrapper.dataset.col = pieceData.col;
-      wrapper.dataset.rows = currentPuzzle.rows;
-      wrapper.dataset.cols = currentPuzzle.cols;
-
-      // Scale piece canvas for display
-      const displaySize = Math.min(90, (boardSize / currentPuzzle.cols) * 1.3);
-      const scale = displaySize / Math.max(pieceData.width, pieceData.height);
-
-      const displayCanvas = document.createElement('canvas');
-      displayCanvas.width = pieceData.width * scale;
-      displayCanvas.height = pieceData.height * scale;
-      const dCtx = displayCanvas.getContext('2d');
-      dCtx.drawImage(pieceData.canvas, 0, 0, displayCanvas.width, displayCanvas.height);
-
-      wrapper.appendChild(displayCanvas);
-      wrapper._pieceData = pieceData;
-      tray.appendChild(wrapper);
-
-      dragSystem.attachPiece(wrapper);
-    });
-
-    // Start timer
-    startTimer();
   }
 
 
@@ -257,6 +261,8 @@
   function handlePieceSnap(pieceEl, { row, col }) {
     placedCount++;
     $('#pieces-display').textContent = `${placedCount}/${totalPieces}`;
+
+    if (soundEnabled) Effects.playSnapSound();
 
     // Draw piece on board canvas
     const canvas = $('#board-canvas');
@@ -373,31 +379,21 @@
 
     // Victory — Next
     $('#btn-next').addEventListener('click', () => {
-      const nextId = $('#btn-next').dataset.nextPuzzle;
       closeVictory();
-      if (nextId && PUZZLES[nextId]) {
-        startGame(nextId);
+      const nextPuzzleId = $('#btn-next').dataset.nextPuzzle;
+      if (nextPuzzleId) {
+        startGame(nextPuzzleId);
       } else {
         navigateTo('levels');
         updateLevelCards();
       }
-    });
-
-    // Settings (placeholder)
-    $('#btn-settings').addEventListener('click', () => {
-      // Could open a settings modal in the future
     });
   }
 
 
   // === INIT ===
   function init() {
-    // Load saved progress
-    const progress = loadProgress();
-    if (progress.completed.puppy && progress.completed.castle) {
-      PUZZLES.whale.unlocked = true;
-    }
-
+    loadProgress();
     bindEvents();
     updateLevelCards();
 

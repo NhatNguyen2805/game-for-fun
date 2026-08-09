@@ -397,6 +397,46 @@ button {
   object-fit: cover;
 }
 
+.puzzle-card-banner {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.6);
+}
+
+.level-1-banner {
+  background: linear-gradient(135deg, #B8E2F2 0%, #E8F4F8 100%);
+  color: #2b6a82;
+}
+
+.level-2-banner {
+  background: linear-gradient(135deg, #ffb5a7 0%, #fce89c 100%);
+  color: #7a443a;
+}
+
+.puzzle-card.locked .level-2-banner {
+  background: linear-gradient(135deg, #eae8e5 0%, #d7c2be 100%);
+  color: #857370;
+}
+
+.level-card-icon {
+  font-size: 54px !important;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+}
+
+.level-card-number {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 0.05em;
+}
+
 .puzzle-card-body {
   padding: 16px 20px 20px;
   display: flex;
