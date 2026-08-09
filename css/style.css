@@ -871,12 +871,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, background 0.3s ease;
   padding: var(--safe-margin-horizontal);
 }
 
@@ -1071,6 +1071,41 @@ button {
   font-size: 15px;
   min-height: 50px;
   border-radius: var(--radius-full);
+}
+
+.btn-toggle-view {
+  background: transparent;
+  border: 1.5px solid var(--outline);
+  color: var(--on-surface-variant);
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-view:hover {
+  background: var(--surface-container-high);
+  color: var(--primary);
+}
+
+.victory-overlay.minimized {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  cursor: pointer;
+}
+
+.victory-overlay.minimized .victory-card {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
 }
 
 /* ============================================

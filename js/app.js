@@ -465,6 +465,7 @@
   function closeVictory() {
     const overlay = $('#victory-overlay');
     overlay.classList.remove('active');
+    overlay.classList.remove('minimized');
     Effects.stopConfetti();
   }
 
@@ -543,6 +544,22 @@
         updateLevelCards();
       }
     });
+
+    // Victory — Toggle View Full Picture
+    const btnToggleView = $('#btn-toggle-view');
+    const victoryOverlay = $('#victory-overlay');
+    if (btnToggleView && victoryOverlay) {
+      btnToggleView.addEventListener('click', (e) => {
+        e.stopPropagation();
+        victoryOverlay.classList.toggle('minimized');
+      });
+
+      victoryOverlay.addEventListener('click', () => {
+        if (victoryOverlay.classList.contains('minimized')) {
+          victoryOverlay.classList.remove('minimized');
+        }
+      });
+    }
   }
 
 
