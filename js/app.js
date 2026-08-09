@@ -311,7 +311,7 @@
       onDragStart: (el) => {
         if (soundEnabled) Effects.playPopSound();
       },
-      onDragEnd: (el) => {},
+      onDragEnd: (el) => { },
     });
 
     // Attach drag listener to each piece
