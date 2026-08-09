@@ -170,32 +170,46 @@
     <!-- ==========================================
          VICTORY MODAL (overlay on game screen)
          ========================================== -->
+    <!-- ==========================================
+         VICTORY MODAL (overlay on game screen)
+         ========================================== -->
     <div class="victory-overlay" id="victory-overlay">
       <div class="victory-card">
-        <h2 class="victory-title">Wonderful!</h2>
-        <div class="victory-stars">
-          <span class="victory-star">⭐</span>
-          <span class="victory-star">⭐</span>
-          <span class="victory-star">⭐</span>
+        <div class="victory-badge">
+          <span class="material-symbols-outlined victory-badge-icon">emoji_events</span>
         </div>
-        <p class="victory-message">You solved the puzzle with remarkable skill!</p>
+        <h2 class="victory-title">Amazing Job, Dawson! 🎉</h2>
+        <div class="victory-stars">
+          <span class="victory-star star-1">⭐</span>
+          <span class="victory-star star-2">⭐</span>
+          <span class="victory-star star-3">⭐</span>
+        </div>
+        <p class="victory-message">You are a true puzzle master! You solved the mystery picture!</p>
+
         <div class="victory-stats">
           <div class="victory-stat">
-            <span class="victory-stat-value" id="victory-time">00:00</span>
-            <span class="victory-stat-label">Time</span>
+            <span class="material-symbols-outlined stat-icon">timer</span>
+            <div class="stat-info">
+              <span class="victory-stat-value" id="victory-time">00:00</span>
+              <span class="victory-stat-label">Best Time</span>
+            </div>
           </div>
           <div class="victory-stat">
-            <span class="victory-stat-value" id="victory-pieces">0</span>
-            <span class="victory-stat-label">Pieces</span>
+            <span class="material-symbols-outlined stat-icon">extension</span>
+            <div class="stat-info">
+              <span class="victory-stat-value" id="victory-pieces">12</span>
+              <span class="victory-stat-label">Pieces Placed</span>
+            </div>
           </div>
         </div>
+
         <div class="victory-actions">
           <button class="btn btn-secondary" id="btn-replay">
             <span class="material-symbols-outlined">replay</span>
-            Replay
+            Play Again
           </button>
           <button class="btn btn-play" id="btn-next" style="min-width:auto; padding:0 24px;">
-            Next
+            Next Level
             <span class="material-symbols-outlined">arrow_forward</span>
           </button>
         </div>
@@ -255,9 +269,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/effects.js?v=3.2"></script>
-  <script src="js/puzzle.js?v=3.2"></script>
-  <script src="js/drag.js?v=3.2"></script>
-  <script src="js/app.js?v=3.2"></script>
+  <script src="js/effects.js?v=3.3"></script>
+  <script src="js/puzzle.js?v=3.3"></script>
+  <script src="js/drag.js?v=3.3"></script>
+  <script src="js/app.js?v=3.3"></script>
 </body>
 </html>

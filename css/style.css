@@ -774,41 +774,65 @@ button {
 .victory-card {
   background: var(--surface-container-lowest);
   border-radius: var(--radius-xl);
-  padding: 40px 32px 32px;
+  padding: 32px 24px 28px;
   width: 100%;
   max-width: 360px;
-  box-shadow: var(--shadow-elevated);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   transform: scale(0.85);
   transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-bottom: 6px solid var(--tertiary-orange);
 }
 
 .victory-overlay.active .victory-card {
   transform: scale(1);
 }
 
+.victory-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd54f 0%, #ff9800 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(255, 152, 0, 0.35);
+  margin-top: -12px;
+  animation: badgeBounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes badgeBounce {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-6px) scale(1.05); }
+}
+
+.victory-badge-icon {
+  font-size: 36px !important;
+  color: white;
+}
+
 .victory-title {
   font-family: var(--font-headline);
   font-weight: 800;
-  font-size: 36px;
-  line-height: 42px;
+  font-size: 26px;
+  line-height: 32px;
   color: var(--primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .victory-stars {
   display: flex;
-  gap: 8px;
+  gap: 12px;
 }
 
 .victory-star {
-  font-size: 48px;
-  color: var(--butter-yellow);
-  text-shadow: 0 2px 4px rgba(230, 211, 141, 0.5);
+  font-size: 42px;
+  color: #ffca28;
+  filter: drop-shadow(0 4px 6px rgba(255, 193, 7, 0.4));
   opacity: 0;
   transform: scale(0) rotate(-30deg);
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -819,59 +843,73 @@ button {
   transform: scale(1) rotate(0deg);
 }
 
-.victory-overlay.active .victory-star:nth-child(1) { transition-delay: 0.3s; }
-.victory-overlay.active .victory-star:nth-child(2) { transition-delay: 0.5s; }
-.victory-overlay.active .victory-star:nth-child(3) { transition-delay: 0.7s; }
+.victory-overlay.active .victory-star:nth-child(1) { transition-delay: 0.25s; }
+.victory-overlay.active .victory-star:nth-child(2) { transition-delay: 0.45s; }
+.victory-overlay.active .victory-star:nth-child(3) { transition-delay: 0.65s; }
 
 .victory-message {
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 18px;
-  line-height: 26px;
+  font-size: 15px;
+  line-height: 22px;
   color: var(--on-surface-variant);
+  margin-top: -4px;
 }
 
 .victory-stats {
   display: flex;
-  gap: 24px;
-  padding: 16px 24px;
+  gap: 16px;
+  padding: 14px 18px;
   background: var(--surface-container-low);
-  border-radius: var(--radius-default);
+  border-radius: var(--radius-md);
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 .victory-stat {
   flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
+}
+
+.stat-icon {
+  font-size: 28px !important;
+  color: var(--primary);
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
 }
 
 .victory-stat-value {
   font-family: var(--font-headline);
   font-weight: 800;
-  font-size: 22px;
+  font-size: 18px;
   color: var(--on-surface);
 }
 
 .victory-stat-label {
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--outline);
 }
 
 .victory-actions {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
 .victory-actions .btn {
   flex: 1;
-  font-size: 16px;
-  min-height: 56px;
+  font-size: 15px;
+  min-height: 50px;
+  border-radius: var(--radius-full);
 }
 
 /* ============================================
