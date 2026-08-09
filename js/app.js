@@ -443,8 +443,22 @@
 
   // === EVENT LISTENERS ===
   function bindEvents() {
-    // Main Menu → Level Select
+    // Main Menu → How to Play Tutorial
     $('#btn-play').addEventListener('click', () => {
+      $('#tutorial-overlay').classList.add('active');
+    });
+
+    // Settings button opens Tutorial as well
+    const btnSettings = $('#btn-settings');
+    if (btnSettings) {
+      btnSettings.addEventListener('click', () => {
+        $('#tutorial-overlay').classList.add('active');
+      });
+    }
+
+    // Close tutorial modal → Level Select
+    $('#btn-close-tutorial').addEventListener('click', () => {
+      $('#tutorial-overlay').classList.remove('active');
       updateLevelCards();
       navigateTo('levels');
     });
