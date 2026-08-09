@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="description" content="Cozy Puzzles — Game ghép hình dành cho trẻ em với phong cách Pixar/Ghibli dịu dàng" />
+  <title>Cozy Puzzles 🧩</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ==========================================
+         SCREEN 1: MAIN MENU
+         ========================================== -->
+    <section id="screen-menu" class="screen active">
+      <!-- Floating Clouds -->
+      <div class="clouds-container">
+        <svg class="cloud cloud-1" viewBox="0 0 200 120">
+          <path d="M30,90 Q10,90 10,70 Q10,50 30,50 Q35,25 60,25 Q85,25 90,50 Q95,45 105,45 Q125,45 125,65 Q125,85 105,85 Z" fill="white" opacity="0.9"/>
+        </svg>
+        <svg class="cloud cloud-2" viewBox="0 0 200 120">
+          <path d="M25,85 Q5,85 5,65 Q5,45 25,45 Q30,20 55,20 Q80,20 85,45 L90,45 Q95,35 110,35 Q130,35 130,55 Q130,80 110,80 Z" fill="white" opacity="0.85"/>
+        </svg>
+        <svg class="cloud cloud-3" viewBox="0 0 200 120">
+          <path d="M30,90 Q10,90 10,70 Q10,50 30,50 Q35,25 60,25 Q85,25 90,50 Q95,45 105,45 Q125,45 125,65 Q125,85 105,85 Z" fill="white" opacity="0.8"/>
+        </svg>
+        <svg class="cloud cloud-4" viewBox="0 0 200 120">
+          <path d="M25,85 Q5,85 5,65 Q5,45 25,45 Q30,20 55,20 Q80,20 85,45 L90,45 Q95,35 110,35 Q130,35 130,55 Q130,80 110,80 Z" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
+
+      <!-- Menu Content -->
+      <div class="menu-content">
+        <img class="menu-logo" src="images/puzzle-puppy.png" alt="Cozy Puzzles Logo" />
+        <h1 class="menu-title">Cozy Puzzles</h1>
+        <button id="btn-play" class="btn btn-play">
+          <span class="material-symbols-outlined btn-icon">play_arrow</span>
+          PLAY NOW
+        </button>
+      </div>
+
+      <!-- Footer buttons -->
+      <div class="menu-footer">
+        <button class="btn-icon-circle" id="btn-settings" aria-label="Settings">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <button class="btn-icon-circle" id="btn-sound" aria-label="Sound">
+          <span class="material-symbols-outlined">volume_up</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 2: LEVEL SELECTION
+         ========================================== -->
+    <section id="screen-levels" class="screen">
+      <div class="levels-header">
+        <button class="levels-back-btn" id="btn-back-menu" aria-label="Back to menu">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h2 class="levels-title">Choose a Puzzle</h2>
+      </div>
+
+      <div class="levels-scroll" id="levels-scroll">
+        <!-- Card 1: Puppy -->
+        <div class="puzzle-card" data-puzzle="puppy" data-pieces="6">
+          <img class="puzzle-card-image" src="images/puzzle-puppy.png" alt="Friendly Puppy" />
+          <div class="puzzle-card-body">
+            <div class="puzzle-card-info">
+              <h3 class="puzzle-card-title">Friendly Puppy</h3>
+              <p class="puzzle-card-meta">🌟 Perfect for beginners</p>
+            </div>
+            <span class="puzzle-card-badge badge-easy">Easy · 6 pcs</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Castle -->
+        <div class="puzzle-card" data-puzzle="castle" data-pieces="12">
+          <img class="puzzle-card-image" src="images/puzzle-castle.png" alt="Sunny Castle" />
+          <div class="puzzle-card-body">
+            <div class="puzzle-card-info">
+              <h3 class="puzzle-card-title">Sunny Castle</h3>
+              <p class="puzzle-card-meta">🏰 A magical adventure</p>
+            </div>
+            <span class="puzzle-card-badge badge-medium">Medium · 12 pcs</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Whale (locked initially) -->
+        <div class="puzzle-card" data-puzzle="whale" data-pieces="12" id="card-whale">
+          <img class="puzzle-card-image" src="images/puzzle-whale.png" alt="Swimming Whale" />
+          <div class="puzzle-card-body">
+            <div class="puzzle-card-info">
+              <h3 class="puzzle-card-title">Swimming Whale</h3>
+              <p class="puzzle-card-meta">🐋 Deep sea wonder</p>
+            </div>
+            <span class="puzzle-card-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 3: JIGSAW GAMEPLAY
+         ========================================== -->
+    <section id="screen-game" class="screen">
+      <!-- Top Bar -->
+      <div class="game-topbar">
+        <button class="game-topbar-btn" id="btn-back-levels" aria-label="Back to levels">
+          <span class="material-symbols-outlined">home</span>
+        </button>
+        <div class="game-topbar-center">
+          <div class="game-timer">
+            <span class="material-symbols-outlined">timer</span>
+            <span id="timer-display">00:00</span>
+          </div>
+          <div class="topbar-divider"></div>
+          <div class="game-pieces-count">
+            <span class="material-symbols-outlined">extension</span>
+            <span id="pieces-display">0/0</span>
+          </div>
+        </div>
+        <button class="game-topbar-btn" id="btn-hint" aria-label="Hint">
+          <span class="material-symbols-outlined">lightbulb</span>
+        </button>
+      </div>
+
+      <!-- Puzzle Board -->
+      <div class="game-board-area">
+        <div class="puzzle-board" id="puzzle-board">
+          <canvas class="puzzle-board-canvas" id="board-canvas"></canvas>
+          <div class="puzzle-guide-overlay" id="puzzle-guide">
+            <img id="guide-image" src="" alt="Puzzle guide" />
+          </div>
+          <div class="puzzle-placeholder" id="puzzle-placeholder">
+            <span class="material-symbols-outlined">extension</span>
+            <span>Drag pieces here</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Piece Tray -->
+      <div class="piece-tray">
+        <div class="piece-tray-scroll" id="piece-tray">
+          <!-- Puzzle pieces will be injected here by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VICTORY MODAL (overlay on game screen)
+         ========================================== -->
+    <div class="victory-overlay" id="victory-overlay">
+      <div class="victory-card">
+        <h2 class="victory-title">Wonderful!</h2>
+        <div class="victory-stars">
+          <span class="victory-star">⭐</span>
+          <span class="victory-star">⭐</span>
+          <span class="victory-star">⭐</span>
+        </div>
+        <p class="victory-message">You solved the puzzle with remarkable skill!</p>
+        <div class="victory-stats">
+          <div class="victory-stat">
+            <span class="victory-stat-value" id="victory-time">00:00</span>
+            <span class="victory-stat-label">Time</span>
+          </div>
+          <div class="victory-stat">
+            <span class="victory-stat-value" id="victory-pieces">0</span>
+            <span class="victory-stat-label">Pieces</span>
+          </div>
+        </div>
+        <div class="victory-actions">
+          <button class="btn btn-secondary" id="btn-replay">
+            <span class="material-symbols-outlined">replay</span>
+            Replay
+          </button>
+          <button class="btn btn-play" id="btn-next" style="min-width:auto; padding:0 24px;">
+            Next
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/effects.js"></script>
+  <script src="js/puzzle.js"></script>
+  <script src="js/drag.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
