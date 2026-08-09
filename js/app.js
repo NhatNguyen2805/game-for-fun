@@ -305,6 +305,9 @@
       tray,
       board,
       onSnap: handlePieceSnap,
+      onWrongDrop: (el, pos) => {
+        Effects.showWrongFeedback(pos.x, pos.y, soundEnabled);
+      },
       onDragStart: (el) => {
         if (soundEnabled) Effects.playPopSound();
       },

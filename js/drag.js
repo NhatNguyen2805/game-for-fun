@@ -17,6 +17,7 @@ class DragSystem {
     this.tray = options.tray;
     this.board = options.board;
     this.onSnap = options.onSnap || (() => {});
+    this.onWrongDrop = options.onWrongDrop || (() => {});
     this.onDragStart = options.onDragStart || (() => {});
     this.onDragEnd = options.onDragEnd || (() => {});
 
@@ -173,6 +174,18 @@ class DragSystem {
       pieceEl.style.position = '';
       pieceEl.style.left = '';
       pieceEl.style.top = '';
+
+      // Check if dropped near or over board
+      const isOverBoard = (
+        pieceCenterX >= boardRect.left - 40 &&
+        pieceCenterX <= boardRect.right + 40 &&
+        pieceCenterY >= boardRect.top - 40 &&
+        pieceCenterY <= boardRect.bottom + 40
+      );
+
+      if (isOverBoard) {
+        this.onWrongDrop(pieceEl, { x: pieceCenterX, y: pieceCenterY });
+      }
     }
 
     this.onDragEnd(pieceEl);

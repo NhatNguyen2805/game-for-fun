@@ -1,8 +1,101 @@
 /* ============================================
-   EFFECTS — Sparkles, Confetti, Animations
+   EFFECTS — Sparkles, Confetti, Animations & Audio
    ============================================ */
 
 const Effects = (() => {
+
+  // --- AUDIO SYNTHESIZER ---
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function playPopSound() {
+    try {
+      const ctx = getAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.08);
+    } catch (e) {}
+  }
+
+  function playSnapSound() {
+    try {
+      const ctx = getAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.06); // E5
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.12); // G5
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.25);
+    } catch (e) {}
+  }
+
+  function playWrongSound() {
+    try {
+      const ctx = getAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(240, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.18);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.18);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.18);
+    } catch (e) {}
+  }
+
+  // --- WRONG DROP FEEDBACK ---
+  function showWrongFeedback(x, y, soundEnabled = true) {
+    if (soundEnabled) playWrongSound();
+
+    // Floating wrong toast badge
+    const badge = document.createElement('div');
+    badge.className = 'wrong-drop-toast';
+    badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px;">cancel</span> Not here! Try again 🧩`;
+    badge.style.left = `${Math.max(10, Math.min(window.innerWidth - 190, x - 95))}px`;
+    badge.style.top = `${Math.max(60, y - 45)}px`;
+
+    document.body.appendChild(badge);
+
+    // Board shake effect
+    const board = document.getElementById('puzzle-board');
+    if (board) {
+      board.classList.remove('board-wrong-shake');
+      void board.offsetWidth; // Force reflow
+      board.classList.add('board-wrong-shake');
+      setTimeout(() => board.classList.remove('board-wrong-shake'), 450);
+    }
+
+    setTimeout(() => {
+      badge.classList.add('fade-out');
+      setTimeout(() => badge.remove(), 400);
+    }, 1000);
+  }
+
 
   // --- SPARKLE BURST ---
   function sparkle(x, y, count = 12) {
@@ -118,12 +211,13 @@ const Effects = (() => {
     }
   }
 
-
-  // --- STAR POP ANIMATION (CSS driven, just triggers) ---
-  function animateStars() {
-    // Stars animate via CSS transitions when .active is added to victory-overlay
-    // This function is a placeholder for any extra JS-driven star effects
-  }
-
-  return { sparkle, confetti, stopConfetti, animateStars };
+  return {
+    sparkle,
+    confetti,
+    stopConfetti,
+    playPopSound,
+    playSnapSound,
+    playWrongSound,
+    showWrongFeedback,
+  };
 })();
