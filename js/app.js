@@ -411,6 +411,25 @@
   function handleVictory() {
     stopTimer();
 
+    // 1. Smoothly render full seamless original image onto board canvas (removing puzzle seam lines)
+    const canvas = $('#board-canvas');
+    if (canvas && currentPuzzle) {
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      };
+      img.src = currentPuzzle.image;
+    }
+
+    // 2. Display completed picture preview inside victory modal card
+    const victoryImg = $('#victory-image-img');
+    if (victoryImg && currentPuzzle) {
+      victoryImg.src = currentPuzzle.image;
+    }
+
     // Save progress
     saveProgress(currentPuzzle.id, timerSeconds);
 
