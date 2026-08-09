@@ -651,10 +651,12 @@ button {
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 8px;
-  scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
   align-items: center;
   min-height: 110px;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-x;
 }
 
 .piece-tray-scroll::-webkit-scrollbar {

@@ -254,6 +254,11 @@
       },
       onDragEnd: (el) => {},
     });
+
+    // Attach drag listener to each piece
+    $$('#piece-tray .puzzle-piece').forEach((pieceEl) => {
+      dragSystem.attachPiece(pieceEl);
+    });
   }
 
 
