@@ -407,34 +407,46 @@ button {
   gap: 8px;
   position: relative;
   overflow: hidden;
-  border-bottom: 2px dashed rgba(255, 255, 255, 0.6);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.7);
 }
 
 .level-1-banner {
-  background: linear-gradient(135deg, #B8E2F2 0%, #E8F4F8 100%);
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
   color: #2b6a82;
 }
 
 .level-2-banner {
-  background: linear-gradient(135deg, #ffb5a7 0%, #fce89c 100%);
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
   color: #7a443a;
 }
 
-.puzzle-card.locked .level-2-banner {
+.level-3-banner {
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  color: #4a3b72;
+}
+
+.puzzle-card.locked .level-2-banner,
+.puzzle-card.locked .level-3-banner {
   background: linear-gradient(135deg, #eae8e5 0%, #d7c2be 100%);
   color: #857370;
 }
 
 .level-card-icon {
-  font-size: 54px !important;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+  font-size: 56px !important;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+  transition: transform 0.3s ease;
+}
+
+.puzzle-card:hover .level-card-icon {
+  transform: scale(1.1) rotate(-4deg);
 }
 
 .level-card-number {
   font-family: var(--font-headline);
   font-weight: 800;
   font-size: 26px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.4);
 }
 
 .puzzle-card-body {

@@ -69,7 +69,7 @@
         <button class="levels-back-btn" id="btn-back-menu" aria-label="Back to menu">
           <span class="material-symbols-outlined">arrow_back</span>
         </button>
-        <h2 class="levels-title">Chọn Màn Chơi</h2>
+        <h2 class="levels-title">Select Level</h2>
       </div>
 
       <div class="levels-scroll" id="levels-scroll">
@@ -81,10 +81,10 @@
           </div>
           <div class="puzzle-card-body">
             <div class="puzzle-card-info">
-              <h3 class="puzzle-card-title">Màn 1</h3>
-              <p class="puzzle-card-meta">✨ Bức tranh bí ẩn #1</p>
+              <h3 class="puzzle-card-title">Level 1</h3>
+              <p class="puzzle-card-meta">✨ Mystery Picture #1</p>
             </div>
-            <span class="puzzle-card-badge badge-easy">12 mảnh</span>
+            <span class="puzzle-card-badge badge-easy">12 pieces</span>
           </div>
         </div>
 
@@ -96,10 +96,25 @@
           </div>
           <div class="puzzle-card-body">
             <div class="puzzle-card-info">
-              <h3 class="puzzle-card-title">Màn 2</h3>
-              <p class="puzzle-card-meta">🔒 Hoàn thành Màn 1 để mở</p>
+              <h3 class="puzzle-card-title">Level 2</h3>
+              <p class="puzzle-card-meta">🔒 Complete Level 1 to unlock</p>
             </div>
-            <span class="puzzle-card-badge badge-locked">🔒 Khóa</span>
+            <span class="puzzle-card-badge badge-locked">🔒 Locked</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Level 3 -->
+        <div class="puzzle-card locked" data-puzzle="level3" data-pieces="12" id="card-level3">
+          <div class="puzzle-card-banner level-3-banner">
+            <span class="material-symbols-outlined level-card-icon">lock</span>
+            <span class="level-card-number">LEVEL 3</span>
+          </div>
+          <div class="puzzle-card-body">
+            <div class="puzzle-card-info">
+              <h3 class="puzzle-card-title">Level 3</h3>
+              <p class="puzzle-card-meta">🔒 Complete Level 2 to unlock</p>
+            </div>
+            <span class="puzzle-card-badge badge-locked">🔒 Locked</span>
           </div>
         </div>
       </div>
@@ -192,9 +207,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/effects.js?v=2.1"></script>
-  <script src="js/puzzle.js?v=2.1"></script>
-  <script src="js/drag.js?v=2.1"></script>
-  <script src="js/app.js?v=2.1"></script>
+  <script src="js/effects.js?v=3.0"></script>
+  <script src="js/puzzle.js?v=3.0"></script>
+  <script src="js/drag.js?v=3.0"></script>
+  <script src="js/app.js?v=3.0"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@
   const PUZZLES = {
     level1: {
       id: 'level1',
-      title: 'Màn 1',
+      title: 'Level 1',
       image: 'images/anh-1.png',
       cols: 4,
       rows: 3,
@@ -18,8 +18,17 @@
     },
     level2: {
       id: 'level2',
-      title: 'Màn 2',
+      title: 'Level 2',
       image: 'images/anh-2.png',
+      cols: 4,
+      rows: 3,
+      pieces: 12,
+      unlocked: false,
+    },
+    level3: {
+      id: 'level3',
+      title: 'Level 3',
+      image: 'images/anh-3.png',
       cols: 4,
       rows: 3,
       pieces: 12,
@@ -27,7 +36,7 @@
     },
   };
 
-  const PUZZLE_ORDER = ['level1', 'level2'];
+  const PUZZLE_ORDER = ['level1', 'level2', 'level3'];
 
   // === STATE ===
   let currentScreen = 'menu';
@@ -59,6 +68,9 @@
         if (data.completed.level1) {
           PUZZLES.level2.unlocked = true;
         }
+        if (data.completed.level2) {
+          PUZZLES.level3.unlocked = true;
+        }
         return data;
       }
     } catch (e) { /* ignore */ }
@@ -76,6 +88,9 @@
     // Update unlock status
     if (progress.completed.level1) {
       PUZZLES.level2.unlocked = true;
+    }
+    if (progress.completed.level2) {
+      PUZZLES.level3.unlocked = true;
     }
   }
 
@@ -135,31 +150,60 @@
   function updateLevelCards() {
     loadProgress();
 
+    // Level 2
     const card2 = $('#card-level2');
-    if (!card2) return;
+    if (card2) {
+      if (PUZZLES.level2.unlocked) {
+        card2.classList.remove('locked');
+        const badge = card2.querySelector('.puzzle-card-badge');
+        if (badge) {
+          badge.textContent = '12 pieces';
+          badge.className = 'puzzle-card-badge badge-easy';
+        }
+        const meta = card2.querySelector('.puzzle-card-meta');
+        if (meta) meta.textContent = '✨ Mystery Picture #2';
+        const icon = card2.querySelector('.level-card-icon');
+        if (icon) icon.textContent = 'help_center';
+      } else {
+        card2.classList.add('locked');
+        const badge = card2.querySelector('.puzzle-card-badge');
+        if (badge) {
+          badge.textContent = '🔒 Locked';
+          badge.className = 'puzzle-card-badge badge-locked';
+        }
+        const meta = card2.querySelector('.puzzle-card-meta');
+        if (meta) meta.textContent = '🔒 Complete Level 1 to unlock';
+        const icon = card2.querySelector('.level-card-icon');
+        if (icon) icon.textContent = 'lock';
+      }
+    }
 
-    if (PUZZLES.level2.unlocked) {
-      card2.classList.remove('locked');
-      const badge = card2.querySelector('.puzzle-card-badge');
-      if (badge) {
-        badge.textContent = '12 mảnh';
-        badge.className = 'puzzle-card-badge badge-easy';
+    // Level 3
+    const card3 = $('#card-level3');
+    if (card3) {
+      if (PUZZLES.level3.unlocked) {
+        card3.classList.remove('locked');
+        const badge = card3.querySelector('.puzzle-card-badge');
+        if (badge) {
+          badge.textContent = '12 pieces';
+          badge.className = 'puzzle-card-badge badge-easy';
+        }
+        const meta = card3.querySelector('.puzzle-card-meta');
+        if (meta) meta.textContent = '✨ Mystery Picture #3';
+        const icon = card3.querySelector('.level-card-icon');
+        if (icon) icon.textContent = 'help_center';
+      } else {
+        card3.classList.add('locked');
+        const badge = card3.querySelector('.puzzle-card-badge');
+        if (badge) {
+          badge.textContent = '🔒 Locked';
+          badge.className = 'puzzle-card-badge badge-locked';
+        }
+        const meta = card3.querySelector('.puzzle-card-meta');
+        if (meta) meta.textContent = '🔒 Complete Level 2 to unlock';
+        const icon = card3.querySelector('.level-card-icon');
+        if (icon) icon.textContent = 'lock';
       }
-      const meta = card2.querySelector('.puzzle-card-meta');
-      if (meta) meta.textContent = '✨ Bức tranh bí ẩn #2';
-      const icon = card2.querySelector('.level-card-icon');
-      if (icon) icon.textContent = 'help_center';
-    } else {
-      card2.classList.add('locked');
-      const badge = card2.querySelector('.puzzle-card-badge');
-      if (badge) {
-        badge.textContent = '🔒 Khóa';
-        badge.className = 'puzzle-card-badge badge-locked';
-      }
-      const meta = card2.querySelector('.puzzle-card-meta');
-      if (meta) meta.textContent = '🔒 Hoàn thành Màn 1 để mở';
-      const icon = card2.querySelector('.level-card-icon');
-      if (icon) icon.textContent = 'lock';
     }
   }
 
