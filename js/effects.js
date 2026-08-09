@@ -75,8 +75,8 @@ const Effects = (() => {
     // Floating wrong toast badge
     const badge = document.createElement('div');
     badge.className = 'wrong-drop-toast';
-    badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px;">cancel</span> Not here! Try again 🧩`;
-    badge.style.left = `${Math.max(10, Math.min(window.innerWidth - 190, x - 95))}px`;
+    badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px;">cancel</span> Not here, Dawson! Try again 🧩`;
+    badge.style.left = `${Math.max(10, Math.min(window.innerWidth - 230, x - 115))}px`;
     badge.style.top = `${Math.max(60, y - 45)}px`;
 
     document.body.appendChild(badge);
