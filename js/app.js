@@ -48,7 +48,8 @@
   let timerInterval = null;
   let timerSeconds = 0;
   let soundEnabled = true;
-  let hintsUsedThisLevel = false;
+  const MAX_HINTS_PER_LEVEL = 2;
+  let hintsRemaining = MAX_HINTS_PER_LEVEL;
   let hintTimeoutId = null;
 
   // === DOM ELEMENTS ===
@@ -218,13 +219,15 @@
     placedCount = 0;
     totalPieces = currentPuzzle.pieces;
 
-    // Reset Hint System for this level
-    hintsUsedThisLevel = false;
+    // Reset Hint System for this level (2 hints per level)
+    hintsRemaining = MAX_HINTS_PER_LEVEL;
     if (hintTimeoutId) clearTimeout(hintTimeoutId);
     const existingBox = $('#board-hint-box');
     if (existingBox) existingBox.remove();
 
     const btnHint = $('#btn-hint');
+    const badgeHint = $('#hint-badge');
+    if (badgeHint) badgeHint.textContent = hintsRemaining;
     if (btnHint) {
       btnHint.classList.remove('disabled');
       btnHint.removeAttribute('disabled');
@@ -317,16 +320,19 @@
 
   // === SINGLE-PIECE HINT SYSTEM ===
   function triggerSinglePieceHint() {
-    if (hintsUsedThisLevel) return;
+    if (hintsRemaining <= 0) return;
 
     const unplaced = Array.from($$('#piece-tray .puzzle-piece')).filter((el) => !el.classList.contains('placed'));
     if (unplaced.length === 0) return;
 
-    hintsUsedThisLevel = true;
+    hintsRemaining--;
 
-    // Disable hint button for the rest of this level
+    // Update hint badge & button state
+    const badgeHint = $('#hint-badge');
+    if (badgeHint) badgeHint.textContent = hintsRemaining;
+
     const btnHint = $('#btn-hint');
-    if (btnHint) {
+    if (hintsRemaining === 0 && btnHint) {
       btnHint.classList.add('disabled');
       btnHint.setAttribute('disabled', 'true');
     }
