@@ -1,7 +1,7 @@
 /* ============================================
    PUZZLE ENGINE — Jigsaw Piece Generation
    Uses Canvas API with Bézier Curve edges
-   Vector-transformed for smooth non-overlapping tabs
+   Single-pass grid renderer for crisp, clean lines
    ============================================ */
 
 class JigsawPuzzle {
@@ -18,7 +18,7 @@ class JigsawPuzzle {
     this.boardSize = boardSize;
     this.pieceW = boardSize / cols;
     this.pieceH = boardSize / rows;
-    this.tabSize = Math.min(this.pieceW, this.pieceH) * 0.22;
+    this.tabSize = Math.min(this.pieceW, this.pieceH) * 0.18;
     this.edgeMap = this._generateEdgeMap();
     this.pieces = [];
   }
@@ -101,8 +101,8 @@ class JigsawPuzzle {
     ];
 
     const h = this.tabSize * edge;
-    const neck = len * 0.08;
-    const headW = len * 0.13;
+    const neck = len * 0.07;
+    const headW = len * 0.11;
     const mid = len * 0.5;
 
     // 1. Line to base of neck
@@ -116,8 +116,8 @@ class JigsawPuzzle {
     path.bezierCurveTo(c1x1, c1y1, c1x2, c1y2, p1x, p1y);
 
     // 3. Head top arc
-    const [c2x1, c2y1] = pt(mid - headW * 1.25, h * 1.25);
-    const [c2x2, c2y2] = pt(mid + headW * 1.25, h * 1.25);
+    const [c2x1, c2y1] = pt(mid - headW * 1.2, h * 1.2);
+    const [c2x2, c2y2] = pt(mid + headW * 1.2, h * 1.2);
     const [p2x, p2y] = pt(mid + headW, h * 0.85);
     path.bezierCurveTo(c2x1, c2y1, c2x2, c2y2, p2x, p2y);
 
@@ -233,23 +233,65 @@ class JigsawPuzzle {
   }
 
   /**
-   * Draw the board grid (ghost guide) on the main canvas
+   * Draw the board grid (ghost guide) on the main canvas cleanly
+   * Draws each internal line exactly ONCE to avoid double-stroking
    */
   drawBoardGrid(ctx) {
     ctx.clearRect(0, 0, this.boardSize, this.boardSize);
 
     ctx.save();
     ctx.strokeStyle = 'rgba(136, 79, 68, 0.22)';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
-    for (let r = 0; r < this.rows; r++) {
+    const path = new Path2D();
+
+    // 1. Draw internal horizontal edges
+    for (let r = 0; r < this.rows - 1; r++) {
+      const y = (r + 1) * this.pieceH;
       for (let c = 0; c < this.cols; c++) {
-        const path = this._createPiecePath(r, c);
-        ctx.stroke(path);
+        const x0 = c * this.pieceW;
+        const x1 = (c + 1) * this.pieceW;
+        const edge = this.edgeMap.hEdges[r][c];
+        path.moveTo(x0, y);
+        this._drawEdge(path, x0, y, x1, y, edge);
       }
     }
+
+    // 2. Draw internal vertical edges
+    for (let c = 0; c < this.cols - 1; c++) {
+      const x = (c + 1) * this.pieceW;
+      for (let r = 0; r < this.rows; r++) {
+        const y0 = r * this.pieceH;
+        const y1 = (r + 1) * this.pieceH;
+        const edge = this.edgeMap.vEdges[r][c];
+        path.moveTo(x, y0);
+        this._drawEdge(path, x, y0, x, y1, edge);
+      }
+    }
+
+    ctx.stroke(path);
+
+    // 3. Draw outer rounded border once
+    const borderPath = new Path2D();
+    const radius = 16;
+    const size = this.boardSize;
+    borderPath.moveTo(radius, 0);
+    borderPath.lineTo(size - radius, 0);
+    borderPath.arcTo(size, 0, size, radius, radius);
+    borderPath.lineTo(size, size - radius);
+    borderPath.arcTo(size, size, size - radius, size, radius);
+    borderPath.lineTo(radius, size);
+    borderPath.arcTo(0, size, 0, size - radius, radius);
+    borderPath.lineTo(0, radius);
+    borderPath.arcTo(0, 0, radius, 0, radius);
+    borderPath.closePath();
+
+    ctx.strokeStyle = 'rgba(136, 79, 68, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke(borderPath);
+
     ctx.restore();
   }
 
