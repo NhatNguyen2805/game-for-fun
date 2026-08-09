@@ -183,8 +183,7 @@
 
   function initPuzzle(img) {
     const board = $('#puzzle-board');
-    const boardRect = board.getBoundingClientRect();
-    const boardSize = Math.min(boardRect.width, boardRect.height);
+    const boardSize = board.clientWidth || Math.min(board.getBoundingClientRect().width, board.getBoundingClientRect().height) || 320;
 
     // Setup board canvas
     const canvas = $('#board-canvas');

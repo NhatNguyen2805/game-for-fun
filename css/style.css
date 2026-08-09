@@ -636,12 +636,11 @@ button {
 }
 
 .puzzle-piece.dragging {
-  opacity: 0.9;
+  opacity: 0.95;
   z-index: 1000;
   transform: scale(1.1);
   box-shadow: var(--shadow-elevated);
   position: fixed;
-  pointer-events: none;
 }
 
 .puzzle-piece.placed {
