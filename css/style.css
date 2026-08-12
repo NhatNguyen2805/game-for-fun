@@ -142,10 +142,16 @@ button {
 /* ============================================
    SCREEN 1: MAIN MENU
    ============================================ */
+/* ============================================
+   SCREEN 1: GAMES HUB (MAIN MENU)
+   ============================================ */
 #screen-menu {
-  background: var(--sky-blue);
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(180deg, #BAE6FD 0%, #E0F2FE 40%, #F0F9FF 100%);
+  align-items: stretch;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 20px) 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* --- Clouds --- */
@@ -200,48 +206,174 @@ button {
   }
 }
 
-/* --- Menu Content --- */
-.menu-content {
+/* --- Hub Header --- */
+.hub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 5;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+.hub-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hub-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid #FFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  object-fit: cover;
+}
+
+.hub-user-text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 40px;
+}
+
+.hub-badge {
+  font-family: var(--font-headline);
+  font-size: 12px;
+  font-weight: 800;
+  color: #D97706;
+  background: #FEF3C7;
+  padding: 2px 10px;
+  border-radius: 12px;
+  width: fit-content;
+  letter-spacing: 0.02em;
+}
+
+.hub-greeting {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 800;
+  color: #1E293B;
+  margin: 2px 0 0 0;
+  line-height: 1.2;
+}
+
+/* --- Hub Games Grid --- */
+.hub-games-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
   position: relative;
-  z-index: 2;
-  padding: 0 var(--safe-margin-horizontal);
+  z-index: 5;
+  margin: 8px 0;
 }
 
-.menu-logo {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  border: 5px solid white;
-  box-shadow: var(--shadow-elevated);
+.hub-game-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.hub-game-card:active {
+  transform: scale(0.97);
+}
+
+.hub-card-banner {
+  height: 140px;
+  position: relative;
+  overflow: hidden;
+  background: #E2E8F0;
+}
+
+.hub-banner-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  animation: logo-breathe 4s ease-in-out infinite;
+  transition: transform 0.4s ease;
 }
 
-@keyframes logo-breathe {
-
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.03);
-  }
+.hub-game-card:hover .hub-banner-img {
+  transform: scale(1.05);
 }
 
-.menu-title {
+.hub-card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  color: #0369A1;
   font-family: var(--font-headline);
   font-weight: 800;
-  font-size: 36px;
-  line-height: 42px;
-  letter-spacing: -0.02em;
-  color: var(--on-primary-container);
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hub-card-badge.badge-new {
+  background: #10B981;
+  color: #FFFFFF;
+}
+
+.hub-card-body {
+  padding: 16px 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hub-card-title {
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.hub-card-desc {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.btn-play-card {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-puzzle {
+  background: #F43F5E;
+  border-bottom: 4px solid #BE123C;
+  color: #FFFFFF;
+}
+
+.btn-fishing {
+  background: #0284C7;
+  border-bottom: 4px solid #0369A1;
+  color: #FFFFFF;
+}
+
+/* --- Hub Footer --- */
+.hub-footer {
   text-align: center;
-  text-shadow: 0 2px 8px rgba(136, 79, 68, 0.1);
+  font-size: 13px;
+  color: #94A3B8;
+  padding: 12px 0 8px 0;
+  font-weight: 600;
 }
 
 /* --- Buttons --- */
@@ -1165,6 +1297,135 @@ button {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ============================================
+   SCREEN 4: OCEAN FISHING GAME (IPHONE 17 PRO MAX)
+   ============================================ */
+#screen-fishing {
+  background: #0284C7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Fishing Top Header */
+.fishing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top, 16px) 16px 12px 16px;
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(180deg, rgba(2, 132, 199, 0.9) 0%, rgba(2, 132, 199, 0) 100%);
+}
+
+.fishing-title-badge {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 6px 16px;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fishing-bucket-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FEF3C7;
+  color: #D97706;
+  border: 2px solid #F59E0B;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.fishing-bucket-counter:active {
+  transform: scale(0.95);
+}
+
+/* Fishing Canvas Container */
+.fishing-canvas-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fishing-ocean-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.fishing-fish-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.fishing-rod-area {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  width: 120px;
+  pointer-events: none;
+}
+
+.fishing-rod-img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+/* Bottom Action Dock */
+.fishing-bottom-dock {
+  padding: 16px 20px env(safe-area-inset-bottom, 24px) 20px;
+  position: relative;
+  z-index: 20;
+  background: linear-gradient(0deg, rgba(2, 132, 199, 0.95) 0%, rgba(2, 132, 199, 0) 100%);
+  display: flex;
+  justify-content: center;
+}
+
+.btn-cast-line {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  border-bottom: 5px solid #92400E;
+  color: #FFFFFF;
+  width: 100%;
+  max-width: 340px;
+  min-height: 56px;
+  font-size: 20px;
+  border-radius: 28px;
+  box-shadow: 0 10px 20px rgba(217, 119, 6, 0.4);
+  animation: cast-btn-pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes cast-btn-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
 }
 
 /* ============================================

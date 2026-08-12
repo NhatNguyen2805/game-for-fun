@@ -60,6 +60,7 @@
     menu: $('#screen-menu'),
     levels: $('#screen-levels'),
     game: $('#screen-game'),
+    fishing: $('#screen-fishing'),
   };
 
   // === STORAGE ===
@@ -473,15 +474,43 @@
   // === EVENT LISTENERS ===
   function bindEvents() {
     // Main Menu → How to Play Tutorial
-    $('#btn-play').addEventListener('click', () => {
-      $('#tutorial-overlay').classList.add('active');
-    });
+    const btnPlay = $('#btn-play');
+    if (btnPlay) {
+      btnPlay.addEventListener('click', () => {
+        $('#tutorial-overlay').classList.add('active');
+      });
+    }
 
     // Settings button opens Tutorial as well
     const btnSettings = $('#btn-settings');
     if (btnSettings) {
       btnSettings.addEventListener('click', () => {
         $('#tutorial-overlay').classList.add('active');
+      });
+    }
+
+    // Hub: Card 1 - Play Puzzles
+    const cardPuzzle = $('#card-game-puzzle');
+    if (cardPuzzle) {
+      cardPuzzle.addEventListener('click', () => {
+        updateLevelCards();
+        navigateTo('levels');
+      });
+    }
+
+    // Hub: Card 2 - Ocean Fishing
+    const cardFishing = $('#card-game-fishing');
+    if (cardFishing) {
+      cardFishing.addEventListener('click', () => {
+        navigateTo('fishing');
+      });
+    }
+
+    // Fishing Game Header → Back to Hub Home
+    const btnFishingHome = $('#btn-fishing-home');
+    if (btnFishingHome) {
+      btnFishingHome.addEventListener('click', () => {
+        navigateTo('menu');
       });
     }
 
@@ -492,7 +521,7 @@
       navigateTo('levels');
     });
 
-    // Level Select → Main Menu
+    // Level Select → Main Menu (Hub)
     $('#btn-back-menu').addEventListener('click', () => {
       navigateTo('menu');
     });

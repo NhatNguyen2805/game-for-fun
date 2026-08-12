@@ -21,7 +21,7 @@
   <div id="app">
 
     <!-- ==========================================
-         SCREEN 1: MAIN MENU
+         SCREEN 1: GAMES HUB (MAIN MENU)
          ========================================== -->
     <section id="screen-menu" class="screen active">
       <!-- Floating Clouds -->
@@ -40,24 +40,62 @@
         </svg>
       </div>
 
-      <!-- Menu Content -->
-      <div class="menu-content">
-        <img class="menu-logo" src="images/avatar.jpg" alt="Puzzle For Dawson Logo" />
-        <h1 class="menu-title">Puzzle For Dawson</h1>
-        <button id="btn-play" class="btn btn-play">
-          <span class="material-symbols-outlined btn-icon">play_arrow</span>
-          PLAY NOW
-        </button>
+      <!-- Header Hub -->
+      <div class="hub-header">
+        <div class="hub-user-profile">
+          <img class="hub-avatar" src="images/avatar.jpg" alt="Dawson Avatar" />
+          <div class="hub-user-text">
+            <span class="hub-badge">Dawson's Arcade 🌟</span>
+            <h1 class="hub-greeting">Choose a Game!</h1>
+          </div>
+        </div>
+        <div class="hub-top-actions">
+          <button class="btn-icon-circle" id="btn-sound" aria-label="Sound">
+            <span class="material-symbols-outlined">volume_up</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Footer buttons -->
-      <div class="menu-footer">
-        <button class="btn-icon-circle" id="btn-settings" aria-label="Settings">
-          <span class="material-symbols-outlined">settings</span>
-        </button>
-        <button class="btn-icon-circle" id="btn-sound" aria-label="Sound">
-          <span class="material-symbols-outlined">volume_up</span>
-        </button>
+      <!-- Games Cards Grid -->
+      <div class="hub-games-grid">
+        
+        <!-- GAME CARD 1: COZY PUZZLES -->
+        <div class="hub-game-card card-puzzle" id="card-game-puzzle">
+          <div class="hub-card-banner banner-puzzle">
+            <img src="images/anh-1.png" alt="Cozy Puzzle" class="hub-banner-img" />
+            <span class="hub-card-badge">🧩 12-PIECE PUZZLE</span>
+          </div>
+          <div class="hub-card-body">
+            <h2 class="hub-card-title">Cozy Puzzles</h2>
+            <p class="hub-card-desc">Solve cute cartoon jigsaw puzzles!</p>
+            <button class="btn btn-play-card btn-puzzle" id="btn-play-puzzle">
+              <span class="material-symbols-outlined">extension</span>
+              PLAY PUZZLES ▶
+            </button>
+          </div>
+        </div>
+
+        <!-- GAME CARD 2: OCEAN FISHING -->
+        <div class="hub-game-card card-fishing" id="card-game-fishing">
+          <div class="hub-card-banner banner-fishing">
+            <img src="images/ocean-bg.png" alt="Ocean Fishing" class="hub-banner-img" onerror="this.src='images/puzzle-whale.png'" />
+            <span class="hub-card-badge badge-new">🎣 NEW GAME</span>
+          </div>
+          <div class="hub-card-body">
+            <h2 class="hub-card-title">Ocean Fishing</h2>
+            <p class="hub-card-desc">Catch fish, solve mini-games & spell English names!</p>
+            <button class="btn btn-play-card btn-fishing" id="btn-play-fishing">
+              <span class="material-symbols-outlined">phishing</span>
+              LET'S FISH 🎣
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Info -->
+      <div class="hub-footer">
+        <span>Made with ❤️ for Dawson</span>
       </div>
     </section>
 
@@ -165,6 +203,47 @@
         <div class="piece-tray-scroll" id="piece-tray">
           <!-- Puzzle pieces will be injected here by JS -->
         </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 4: OCEAN FISHING GAME (MOBILE IPHONE 17 PRO MAX)
+         ========================================== -->
+    <section id="screen-fishing" class="screen">
+      <!-- Fishing Header -->
+      <div class="fishing-header">
+        <button class="btn-icon-circle" id="btn-fishing-home" aria-label="Home">
+          <span class="material-symbols-outlined">home</span>
+        </button>
+        <div class="fishing-title-badge">
+          <span>Ocean Explorer 🎣</span>
+        </div>
+        <div class="fishing-bucket-counter" id="btn-view-bucket">
+          <span class="material-symbols-outlined">phishing</span>
+          <span id="fishing-caught-count">0/10</span>
+        </div>
+      </div>
+
+      <!-- Main Fishing Ocean Container -->
+      <div class="fishing-canvas-container">
+        <!-- Ocean Background Image -->
+        <img src="images/ocean-bg.png" class="fishing-ocean-bg" alt="Ocean Background" onerror="this.src='images/puzzle-whale.png'" />
+        
+        <!-- Floating Fish Sprites Container -->
+        <div id="fishing-fish-layer" class="fishing-fish-layer"></div>
+
+        <!-- Fishing Line & Boat -->
+        <div class="fishing-rod-area">
+          <img src="images/fishing-gear.png" class="fishing-rod-img" alt="Fishing Gear" onerror="this.style.display='none'" />
+        </div>
+      </div>
+
+      <!-- Fishing Action Dock -->
+      <div class="fishing-bottom-dock">
+        <button id="btn-cast-line" class="btn btn-cast-line">
+          <span class="material-symbols-outlined">phishing</span>
+          CAST LINE 🎣
+        </button>
       </div>
     </section>
 
