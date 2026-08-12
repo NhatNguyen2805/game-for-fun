@@ -103,6 +103,10 @@
     const currentEl = screens[currentScreen];
     const nextEl = screens[screenName];
 
+    if (currentScreen === 'fishing' && screenName !== 'fishing') {
+      if (window.FishingEngine) window.FishingEngine.stop();
+    }
+
     if (currentEl) {
       currentEl.classList.add('exiting');
       currentEl.classList.remove('active');
@@ -115,6 +119,12 @@
       requestAnimationFrame(() => {
         nextEl.classList.add('active');
       });
+    }
+
+    if (screenName === 'fishing') {
+      if (window.FishingEngine) {
+        setTimeout(() => window.FishingEngine.start(), 200);
+      }
     }
 
     currentScreen = screenName;

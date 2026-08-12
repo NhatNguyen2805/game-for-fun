@@ -227,14 +227,21 @@
       <!-- Main Fishing Ocean Container -->
       <div class="fishing-canvas-container">
         <!-- Ocean Background Image -->
-        <img src="images/ocean-bg.png" class="fishing-ocean-bg" alt="Ocean Background" onerror="this.src='images/puzzle-whale.png'" />
+        <img src="images/puzzle-whale.png" class="fishing-ocean-bg" alt="Ocean Background" />
         
         <!-- Floating Fish Sprites Container -->
         <div id="fishing-fish-layer" class="fishing-fish-layer"></div>
 
-        <!-- Fishing Line & Boat -->
+        <!-- Fishing Line & Boat SVG -->
         <div class="fishing-rod-area">
-          <img src="images/fishing-gear.png" class="fishing-rod-img" alt="Fishing Gear" onerror="this.style.display='none'" />
+          <svg viewBox="0 0 100 80" class="fishing-boat-svg">
+            <!-- Boat Hull -->
+            <path d="M10,40 L90,40 L75,70 L25,70 Z" fill="#D97706" stroke="#92400E" stroke-width="3"/>
+            <path d="M15,45 L85,45 L78,55 L22,55 Z" fill="#F59E0B"/>
+            <!-- Fishing Rod Pole -->
+            <line x1="30" y1="40" x2="5" y2="5" stroke="#78350F" stroke-width="4" stroke-linecap="round"/>
+            <line x1="5" y1="5" x2="5" y2="35" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3,3"/>
+          </svg>
         </div>
       </div>
 
@@ -362,6 +369,7 @@
   <script src="js/effects.js?v=4.0"></script>
   <script src="js/puzzle.js?v=4.0"></script>
   <script src="js/drag.js?v=4.0"></script>
+  <script src="js/fishing.js?v=4.0"></script>
   <script src="js/app.js?v=4.0"></script>
 </body>
 </html>

@@ -211,6 +211,22 @@ const Effects = (() => {
     }
   }
 
+  function showToast(msg) {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast-notification';
+      toast.className = 'toast-notification';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    playSnapSound();
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
   return {
     sparkle,
     confetti,
@@ -219,5 +235,6 @@ const Effects = (() => {
     playSnapSound,
     playWrongSound,
     showWrongFeedback,
+    showToast,
   };
 })();
